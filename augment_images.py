@@ -11,7 +11,7 @@ base_string="/users/PAS0272/osu10258/data/augmented_data/"
 count_base_no=0
 base_image_ht=224
 base_image_wd=224
-stride_length=10
+stride_length=45
 count_1=[0,0,0,0,0]
 count_0=[0,0,0,0,0]
 def check_matrix(image,mask):

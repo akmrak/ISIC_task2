@@ -7,22 +7,50 @@ from PIL import Image
 
 string_names="/users/PAS0272/osu10258/data/a3.pickle"
 attribute_count=5
-base_string="/users/PAS0272/osu10258/data/augmented_data/"
+base_string="/fs/scratch/PAS0272/osu10258/data/augmented_data/45/"
 count_base_no=0
 base_image_ht=224
 base_image_wd=224
-stride_length=10
+stride_length=45
 count=0
+def save_images(image,extract_name):
+	global count
+	extract_name_1=extract_name+str(count)+".jpeg"
+	im=Image.fromarray(image)
+	im.save(extract_name_1)
+	count+=1
+	im1= np.rot90(im)	
+	extract_name_1=extract_name+str(count)+".jpeg"
+	im1=Image.fromarray(im1)
+	im1.save(extract_name_1)
+	count+=1
+	im2=np.rot90(im,2)
+	im2=Image.fromarray(im2)
+	extract_name_1=extract_name+str(count)+".jpeg"
+	im2.save(extract_name_1)
+	count+=1
+	im3=np.rot90(im,-1)
+	im3=Image.fromarray(im3)
+	extract_name_1=extract_name+str(count)+".jpeg"
+	im3.save(extract_name_1)
+	count+=1
+	im4=np.fliplr(im)
+	im4=Image.fromarray(im4)
+	extract_name_1=extract_name+str(count)+".jpeg"
+	im4.save(extract_name_1)
+	count+=1
+	
 def extract_tiles(image,mask,attribute):
 	global count
 	check=check_matrix(image,mask)
-	extract_name=base_string+str(attribute)+"/"+str(check)+"/"+str(count)+".jpeg"
-	count=count+1
-	im=Image.fromarray(image)
-	im.save(extract_name)
-	print(extract_name)
-	
-		
+	if(check==1):
+		extract_name=base_string+str(attribute)+"/"+str(check)+"/"
+		save_images(image,extract_name)	
+	else :
+		extract_name=base_string+str(attribute)+"/"+str(check)+"/"+str(count)+".jpeg"
+		count=count+1
+		im=Image.fromarray(image)
+		im.save(extract_name)
 def check_matrix(image,mask):
 	median_image=np.median(mask)
 	#print(mask.shape)
@@ -69,7 +97,6 @@ def generate_driver(names):
 			generate_augmented_images(name,attribute_num+1)
 def main():
 	list_names=pickle.load(open(string_names,"rb"))
-	#list_names=list_names[:2]
 	generate_driver(list_names)	
 if __name__ == "__main__":
 	main()
